@@ -6,12 +6,21 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = process.env.PORT || 3000
 
+app.use(express.json())
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public'))
 
 const adminCredentials = { username: 'admin', password: 'comunismo' }
 
-
+app.use(json());
+app.use((request, response, next) => {
+    //todo: allow only secure origins
+    response.header("Acess-Control-Allow-Origin", "*");
+    response.header("Acess-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PATCH,DELETE");
+    response.header("Acess-Control-Allow-Headers", "Origin, X-Resquest-With, Content-Type, Accept, Authorization");
+    next();
+}
 /*
     modelagem de dados dos clientes
 */
